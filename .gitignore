@@ -1,0 +1,12 @@
+# File di sistema (Mac e Windows) che non servono nel codice
+.DS_Store
+Thumbs.db
+
+# File di configurazione locali di Visual Studio Code
+.vscode/
+
+# File di log generici
+*.log
+
+# Cartelle di pacchetti (mettila già, ti servirà in futuro quando userai Node.js/npm)
+node_modules/
