@@ -3,7 +3,13 @@
 @section('content')
     <div class="container"> 
         <div>
-            <h1 class="mt-3"> Modifica libro</h1>
+            <h1 class="mt-3">
+                @if(!empty($book['id']))
+                    Modifica libro
+                @else
+                            Aggiungi libro
+                @endif
+            </h1>
             <hr class="border border-primary border-1 opacity-75">
         </div>
         {{-- <?php print_r($book);die() ?> --}}
