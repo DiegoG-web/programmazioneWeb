@@ -36,14 +36,24 @@ class BookController extends Controller
         //return redirect()->route('book.index');
     }
 
+    public function validateBook(Request $request): array{
+        return $request->validate([
+            'title' => ['required','string','max:255','min:3'],
+            'price' => ['required','numeric','min:0'],
+            'year' => ['required','integer','min:1000','max:'.date('Y')],
+            'author' => ['required','exists:authors,id'],
+        ]);
+    }
 
 
     // Input data of the book to create
     public function createBook(Request $request){
-        $title = $request->input('title');
-        $price = $request->input('price');
-        $year = $request->input('year');
-        $authorId = $request->input('author');
+        $validated= $this->validateBook($request);
+
+        $title = $validated["title"];
+        $price = $validated["price"];
+        $year = $validated["year"];
+        $authorId = $validated["author"];
 
         $book = new Book();
         $book->title = $title;
@@ -52,7 +62,7 @@ class BookController extends Controller
         $book->year = $year;
         $book->save();
 
-        return redirect()->route('book.index');
+        return redirect()->route('book.index')->with('success', 'Book created successfully!');
     }
 
     // Input data of the book to edit + $idBook
@@ -69,13 +79,13 @@ class BookController extends Controller
         $book->price = $price;
         $book->year = $year;
         $book->save();
-        return redirect()->route('book.index'); 
+        return redirect()->route('book.index')->with('success', 'Book updated successfully!');
     }
 
     public function deleteBook($bookId){
         $book = Book::findOrFail($bookId);
         $book->deleteQuietly();
 
-        return redirect()->route('book.index');
+        return redirect()->route('book.index')->with('success', 'Book deleted successfully!');
     }
 }

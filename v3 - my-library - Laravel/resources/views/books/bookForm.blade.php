@@ -23,8 +23,20 @@
                         @endif
                         <div class="mb-3">
                             <label for="title" class="form-label">Title</label>
-                            <input type="text" class="form-control" id="title" name="title" required value="{{$book->title}}"
-                            class="@error('title') is-invalid @enderror">
+                            <input 
+                                type="text" 
+                                class="form-control @error('title') is-invalid @enderror" 
+                                id="title" 
+                                name="title" 
+                                required 
+                                value="{{old('title', $book->title)}}"
+                            >
+                            
+                            @error('title')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label for="author" class="form-label">Author</label>
@@ -37,7 +49,14 @@
                         </div>
                         <div class="mb-3">
                             <label for="year" class="form-label">Year</label>
-                            <input type="text" class="form-control" id="year" name="year" required value="{{$book->year}}">
+                            <input 
+                            type="text" 
+                            class="form-control" 
+                            id="year" 
+                            name="year" 
+                            required 
+                            value="{{$book->year}}"
+                            >
                         </div>
                         <div class="mb-3">
                             <label for="price" class="form-label">Price</label>

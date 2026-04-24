@@ -45,5 +45,5 @@ Route::get('/queryExample/{id?}', [HomeController::class, 'queryExample'])->name
     Route::get('/form/{bookId?}', [BookController::class, 'viewForm'])->name('form');
     Route::post('/create', [BookController::class, 'createBook'])->name('create');
     Route::put('/edit/{bookId}', [BookController::class, 'editBook'])->name('edit');
-    Route::delete('/delete/{bookId}', [BookController::class, 'deleteBook'])->name('delete');
+    Route::get('/delete/{bookId}', [BookController::class, 'deleteBook'])->name('delete');
 });
