@@ -1,38 +1,45 @@
 <!DOCTYPE html>
-<html lang="it"> 
- <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>My Library</title> 
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-      <link rel="stylesheet" href="{{ asset('css/bootstrap_v2.min.css') }}">
-      <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css">
+        <title>{{ config('app.name', 'Laravel') }}</title>
 
-      <script src="{{ asset('js/jquery.js') }}"></script>
-      <script src="{{ asset('js/jquery-3.6.0.slim.min.js') }}"></script>
-      <script src="{{ asset('js/popper.min.js') }}"></script>
-      <script src="{{ asset('js/bootstrap.js') }}"></script>
-   </head>
-<body>
-    @include('partials.navbar')
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    <main>
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul class ="mb-0">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-        @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-        @yield('content')
-        
-    </main>
-</body>
+        <!-- Scripts -->
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        <!-- Styles -->
+        @livewireStyles
+    </head>
+    <body class="font-sans antialiased">
+        <x-banner />
+
+        <div class="min-h-screen bg-gray-100">
+            @livewire('navigation-menu')
+
+            <!-- Page Heading -->
+            @if (isset($header))
+                <header class="bg-white shadow">
+                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                        {{ $header }}
+                    </div>
+                </header>
+            @endif
+
+            <!-- Page Content -->
+            <main>
+                {{ $slot }}
+            </main>
+        </div>
+
+        @stack('modals')
+
+        @livewireScripts
+    </body>
 </html>

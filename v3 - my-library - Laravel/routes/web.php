@@ -38,6 +38,9 @@ Route::get('/queryExample/{id?}', [HomeController::class, 'queryExample'])->name
 // ######## Routing with groups and name
 // http://127.0.0.1:8000/book/list
 // route('book.index')
+Route::group(['middleware' => ['role:manager']], function () {
+
+
 
  Route::name('book.')->prefix('book')->group(function () {
     Route::get('/list', [BookController::class, 'index'])->name('index');
@@ -46,4 +49,14 @@ Route::get('/queryExample/{id?}', [HomeController::class, 'queryExample'])->name
     Route::post('/create', [BookController::class, 'createBook'])->name('create');
     Route::put('/edit/{bookId}', [BookController::class, 'editBook'])->name('edit');
     Route::get('/delete/{bookId}', [BookController::class, 'deleteBook'])->name('delete');
+    });
+});
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified'
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 });
