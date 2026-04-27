@@ -2,11 +2,10 @@
 
 namespace Database\Factories;
 
-use App\Models\Author;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Author>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Author>
  */
 class AuthorFactory extends Factory
 {
@@ -18,7 +17,9 @@ class AuthorFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->firstName(),
+            'surname' => fake()->lastName(),
+            'birthYear' => (string) fake()->year('-20 years'), // Genera un anno realistico come stringa
         ];
     }
 }

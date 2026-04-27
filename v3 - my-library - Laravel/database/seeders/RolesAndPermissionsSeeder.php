@@ -5,26 +5,28 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\PermissionRegistrar;
 
 class RolesAndPermissionsSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. Svuota la cache di Spatie
-        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        // 1. Reset cache
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // 2. Creazione dei Permessi per la LIBRERIA
-        //Permission::create(['name' => 'view books']);
-        Permission::create(['name' => 'book_edit']);
-        Permission::create(['name' => 'book_delete']);
-        Permission::create(['name' => 'book_read']);
+        // 2. Crea i permessi e SALVALI in variabili
+        $edit = Permission::findOrCreate('edit_book', 'web');
+        $delete = Permission::findOrCreate('delete_book', 'web');
+        $read = Permission::findOrCreate('read_book', 'web');
 
-        // 3. Ruolo Utente Base (può solo vedere i libri)
-        $userRole = Role::create(['name' => 'user']);
-        $userRole->givePermissionTo('view_books');
+        // 3. Crea i ruoli
+        $userRole = Role::findOrCreate('user', 'web');
+        $adminRole = Role::findOrCreate('admin', 'web');
 
-        // 5. Ruolo Amministratore (ha tutti i poteri)
-        $adminRole = Role::create(['name' => 'admin']);
-        $adminRole->givePermissionTo(Permission::all());
+        // 4. Assegna i permessi usando le variabili (così siamo sicuri che esistano)
+        $userRole->givePermissionTo($read);
+
+        // L'admin prende tutto
+        $adminRole->givePermissionTo([$edit, $delete, $read]);
     }
 }
