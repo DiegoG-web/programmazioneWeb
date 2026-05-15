@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Snake jQuery Without Canvas</title>
+
+  <link rel="stylesheet" href="assets/css/style2.css" />
+</head>
+<body>
+  <main class="game-wrapper">
+    <h1>Snake Game</h1>
+
+    <div class="score-panel">
+      <span>Score: <strong id="score">0</strong></span>
+      <span>Best: <strong id="bestScore">0</strong></span>
+    </div>
+
+    <div id="gameBoard" class="game-board"></div>
+
+    <div class="buttons">
+      <button id="startButton" type="button">Start</button>
+      <button id="pauseButton" type="button">Pause</button>
+      <button id="restartButton" type="button">Restart</button>
+    </div>
+    <p class="help-text">
+      Use arrow keys or <strong>W A S D</strong> to move. Press Space to pause.
+    </p>
+  </main>
+
+  <script src="assets/js/jquery.js"></script>
+  <script src="assets/js/snake2.js"></script>
+</body>
+</html>
