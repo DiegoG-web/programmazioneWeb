@@ -9,7 +9,6 @@
       <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css">
 
       <script src="{{ asset('js/jquery.js') }}"></script>
-      <script src="{{ asset('js/jquery-3.6.0.slim.min.js') }}"></script>
       <script src="{{ asset('js/popper.min.js') }}"></script>
       <script src="{{ asset('js/bootstrap.js') }}"></script>
       <script src="{{ asset('js/myScript.js') }}"></script>

@@ -34,6 +34,9 @@ use App\Http\Controllers\BookController;
     Route::get('/', [HomeController::class, 'getHome'])->name('home');
     Route::get('/queryExample/{id?}', [HomeController::class, 'queryExample'])->name('home.queryExample');
 
+    Route::get('/selectAddress', [HomeController::class, 'loadPageProvince'])->name('home.selectAddress');
+    Route::get('/loadComuni/{provinces}', [HomeController::class, 'comuniByProvince'])->name('home.loadComuni');
+
 
     Route::middleware([
         'auth:sanctum',
