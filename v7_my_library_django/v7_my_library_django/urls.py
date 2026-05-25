@@ -24,6 +24,7 @@ urlpatterns = [
 
     # ROUTE dashboard
     path("", include('dashboard.urls')),
+    path("books/", include('books.urls')),
     # ROUTE books
 
     # ROUTE login e logout 
