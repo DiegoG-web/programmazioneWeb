@@ -1,0 +1,91 @@
+{% extends "layouts/app.html" %}
+
+{% block content %}
+<div class="container">
+    <div>
+        <h1 class="mt-3">
+            {% if book %}
+                Modifica Libro
+            {% else %}
+                Aggiungi Libro
+            {% endif %}
+        </h1>
+
+        <hr class="border border-primary border-1 opacity-75">
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <form
+                method="POST"
+                action="{% if book %}{% url 'books:edit' book.id %}{% else %}{% url 'books:create' %}{% endif %}"
+            >
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="title"
+                        name="title"
+                        value="{% if book %}{{ book.title }}{% endif %}"
+                    >
+                </div>
+
+                <div class="mb-3">
+                    <label for="author" class="form-label">Author</label>
+
+                    <select class="form-control" id="author" name="author">
+                        <option value="">Select Author</option>
+
+                        {% for author in authors %}
+                            <option
+                                value="{{ author.id }}"
+                                {% if book and book.author_id == author.id %}selected{% endif %}
+                            >
+                                {{ author.surname }} {{ author.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="year" class="form-label">Year</label>
+
+                    <input
+                        type="number"
+                        class="form-control"
+                        id="year"
+                        name="year"
+                        value="{% if book %}{{ book.year }}{% endif %}"
+                    >
+                </div>
+
+                <div class="mb-3">
+                    <label for="price" class="form-label">Price</label>
+
+                    <input
+                        type="number"
+                        class="form-control"
+                        id="price"
+                        name="price"
+                        min="0"
+                        step="0.01"
+                        value="{% if book %}{{ book.price }}{% endif %}"
+                    >
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    Salva
+                </button>
+
+                <a href="{% url 'books:list' %}" class="btn btn-secondary">
+                    Annulla
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -8,29 +8,79 @@ from .models import Book
 
 @login_required(login_url="login")
 def book_list(request):
-    books = Book.objects.select_related('author').all()
-    count_books = Book.objects.count()
-    return JsonResponse({
-        "count_books": count_books
-    })
+    books = Book.objects.select_related("author").all()
+    # count_books = Book.objects.count()
+    # return JsonResponse({
+    #     "count_books": count_books
+    # })
+    return render(request, 'list.html', {"books": books})
+
+
 
 @login_required(login_url="login")
-def book_detail(request, book_id):
-    return None
+def book_details(request, book_id):
+    book = get_object_or_404(Book.objects.select_related("author"), id=book_id)
+    return render(request, 'details.html', {"book": book})
+
 
 @login_required(login_url="login")
 def book_form(request, book_id=None):
-    return None
+    book = None
+    if(book_id):
+        book = get_object_or_404(Book.objects.select_related("author"), id=book_id)
+
+    authors = Author.objects.all()
+    return render(request, 'form.html', {"book":book, "authors": authors })
+
+
 
 @login_required(login_url="login")
 def book_create(request):
-    return None
+    if(request.method != 'POST'):
+        return redirect("books:form")
+    
+    title = request.POST.get("title")
+    author_id = request.POST.get("author")
+    year = request.POST.get("year")
+    price = request.POST.get("price")
+    author = get_object_or_404(Author, id=author_id)
+    book = Book()
+    book.title = title
+    book.author = author
+    book.year = year
+    book.price = price
+
+    book.save()
+    messages.success(request, "Libro creato con successo")
+    return redirect("books:list")
+
 
 @login_required(login_url="login")
 def book_edit(request, book_id):
-    return None
+    if(request.method != 'POST'):
+        return redirect("books:form", book_id = book_id)
+    
+    title = request.POST.get("title")
+    author_id = request.POST.get("author")
+    year = request.POST.get("year")
+    price = request.POST.get("price")
+    author = get_object_or_404(Author, id=author_id)
+    book = get_object_or_404(Book, id=book_id)
+    book.title = title
+    book.author = author
+    book.year = year
+    book.price = price
+
+    book.save()
+    messages.success(request, "Libro modificato con successo")
+    return redirect("books:list")
+
 
 @login_required(login_url="login")
 def book_delete(request, book_id):
-    return None
-
+    if(request.method != 'POST'):
+        return redirect("books:list")
+    book = get_object_or_404(Book, id=book_id)
+    book.delete()
+    messages.success(request, "Libro eliminato con successo")
+    return redirect("books:list")

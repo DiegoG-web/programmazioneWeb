@@ -1,0 +1,43 @@
+{% extends "layouts/app.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-3">{{ book.title }}</h1>
+
+    <hr class="border border-primary border-1 opacity-75">
+
+    <div class="card">
+        <div class="card-body">
+            <p>
+                <strong>Titolo:</strong>
+                {{ book.title }}
+            </p>
+
+            <p>
+                <strong>Autore:</strong>
+                {{ book.author.surname }} {{ book.author.name }}
+            </p>
+
+            <p>
+                <strong>Anno:</strong>
+                {{ book.year }}
+            </p>
+
+            <p>
+                <strong>Prezzo:</strong>
+                € {{ book.price }}
+            </p>
+
+            <a href="{% url 'books:list' %}" class="btn btn-secondary">
+                Torna alla lista
+            </a>
+
+            {% if perms.books.change_book %}
+                <a href="{% url 'books:edit' book.id %}" class="btn btn-warning">
+                    Modifica
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
