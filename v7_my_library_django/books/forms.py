@@ -5,7 +5,7 @@ from django import forms
 from authors.models import Author
 from .models import Book
  
-class BookFrom(forms.ModelForm):
+class BookForm(forms.ModelForm):
     title = forms.CharField(
         label="Titolo",
         required=True,
@@ -18,7 +18,7 @@ class BookFrom(forms.ModelForm):
             "class": "form-control",
             "placeholder": "Inserire il titolo del libro"
         })
-    ),
+    )
     author = forms.ModelChoiceField(
         label="Autore",
         queryset=Author.objects.all(),
@@ -64,7 +64,7 @@ class BookFrom(forms.ModelForm):
         },
         widget=forms.NumberInput(attrs={
             "class": "form-control",
-            "placeholder": "Inserire il prezzo del libro"
+            "placeholder": "Inserire il prezzo del libro",
             "step": "0.01"
         })
     )
@@ -74,12 +74,13 @@ class BookFrom(forms.ModelForm):
 
         def clear_title(self):
             title = self.cleaned_data.get("title")
+    
             if title:
                 title = title.strip()
-
+            
             if not title:
-                raise forms.ValidationError("Il titolo non può essere vuoto o contenere solo spazi")
-
+                raise forms.ValidationError("Il titolo non può essere vuoto")
+            
             return title
         
         def clean_year(self):
